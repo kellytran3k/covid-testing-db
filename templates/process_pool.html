@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="process_pool">
+    <h1>Process Pool</h1>
+    <h5>Pool ID: {{ pool_id }}</h5>
+    <form action="{{ url_for('process_pool', pool_id=pool_id) }}", method="POST">
+        <label for="date_processed">Date Processed</label>
+        <input type="date" id="date_processed" name="date_processed">
+
+        <br>
+        <label for="pool_status">Pool Status</label><br>
+        <input type="radio" id="positive" name="pool_status" value="positive" onclick="toggleDisplay(1);">
+        <label for="positive">Positive</label><br>
+        <input type="radio" id="negative" name="pool_status" value="negative" onclick="toggleDisplay(2);">
+        <label for="negative">Negative</label><br>
+
+        <!-- Table allowing lab tech to label tests individually for a positive pool -->
+        <div id="positive_table" style="padding: 20px; display: none;">
+            <table border="1" cellpadding="5" cellspacing="5" style="border-collapse: collapse; width: auto; margin: 20px">
+                <tr>
+                    <th>Test ID</th>
+                    <th>Date Tested</th>
+                    <th>Test Result</th>
+                </tr>
+
+                {% for test in tests %}
+                    <tr >
+                        <td>{{ test.test_id }}</td>
+                        <td>{{ test.date_tested }}</td>
+                        <td>
+                            <select id="test_status_{{test.test_id}}" name="test_status_{{test.test_id}}">
+                                <option value="positive">Positive</option>
+                                <option value="negative">Negative</option>
+                            </select>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+        <!-- Table showing all negative tests for a negative pool -->
+        <div id="negative_table" style="padding: 20px;">
+            <table border="1" cellpadding="5" cellspacing="5" style="border-collapse: collapse; width: auto; margin: 20px">
+                <tr>
+                    <th>Test ID</th>
+                    <th>Date Tested</th>
+                    <th>Test Result</th>
+                </tr>
+
+                {% for test in tests %}
+                    <tr >
+                        <td>{{ test.test_id }}</td>
+                        <td>{{ test.date_tested }}</td>
+                        <td>Negative</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+        <div class="alert-msg">{{ error }}</div>
+        <input type="submit" name="process" value="Process">
+
+        <a href="{{ url_for('home') }}" class="button">Back</a>
+    </form>
+</div>
+<script type="text/javascript">
+    function toggleDisplay(btn) {
+        var table1 = document.getElementById('positive_table');
+        var table2 = document.getElementById('negative_table');
+        if (btn === 1) {
+            table1.style.display = "block";
+            table2.style.display = "none";
+        } else if (btn === 2) {
+            table1.style.display = "none";
+            table2.style.display = "block";
+        }
+    }
+</script>
+{% endblock %}

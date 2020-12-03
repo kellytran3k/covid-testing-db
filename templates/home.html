@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="page" style="width: 60%;">
+
+  {% if success_msg %}
+    <script>
+      function hidebanner() {
+        document.getElementById('success_banner').style.display = 'none';
+      }
+    </script>
+
+    <div id="success_banner" class="alert alert-success success-banner" role="alert">
+      {{ success_msg }}
+      <a onclick="hidebanner();" style="color: #019E2A; text-align: right">Hide</a>
+    </div>
+  {% endif %}
+
+  <div class="page-item">
+    <h1>{{ role }} Home</h1>
+  </div>
+  <div class="page-item home-page-buttons">
+    <!-- Everyone should be able to view aggregate results and view daily results -->
+    <a href="{{ url_for('view_aggregate_results') }}">
+        <button class="btn btn-primary">View Aggregate Results</button>
+    </a>
+    <a href="{{ url_for('view_daily_results') }}">
+        <button class="btn btn-primary">View Daily Results</button>
+    </a>
+    <!-- Student -->
+    {% if role == 'Student' %}
+      <a href="{{ url_for('view_my_results') }}">
+        <button class="btn btn-primary">View My Results</button>
+      </a>
+      <a href="{{ url_for('signup_test') }}">
+        <button class="btn btn-primary">Sign up for a Test</button>
+      </a>
+    {% endif %}
+
+    <!-- Lab Technician -->
+    {% if role == 'Labtech' or role == 'Sitetester/Labtech' %}
+      <a href="{{ url_for('create_pool') }}">
+        <button class="btn btn-primary">Create Pool</button>
+      </a>
+      <a href="{{ url_for('view_pools') }}">
+        <button class="btn btn-primary">View Pools</button>
+      </a>
+      <a href="{{ url_for('view_processed_tests') }}">
+        <button class="btn btn-primary">View My Processed Tests</button>
+      </a>
+    {% endif %}
+
+    <!-- Site tester -->
+    {% if role == 'Sitetester' or role == 'Sitetester/Labtech' %}
+
+      <!-- Need change testing site here -->
+
+      <a href="{{ url_for('view_appointments') }}">
+        <button class="btn btn-primary">View Appointments</button>
+      </a>
+      <a href="{{ url_for('create_appointment') }}">
+        <button class="btn btn-primary">Create Appointment</button>
+      </a>
+      <a href="{{ url_for('change_testing_site') }}">
+        <button class="btn btn-primary">Change Testing Site</button>
+      </a>
+    {% endif %}
+
+
+    <!-- Admin -->
+    {% if role == 'Admin' %}
+      <a href="{{ url_for('reassigntester') }}">
+        <button class="btn btn-primary">Reassign Tester</button>
+      </a>
+      <a href="{{ url_for('create_appointment') }}">
+        <button class="btn btn-primary">Create Appointment</button>
+      </a>
+      <a href="{{ url_for('view_appointments') }}">
+        <button class="btn btn-primary">View Appointments</button>
+      </a>
+      <a href="{{ url_for('create_testing_site') }}">
+        <button class="btn btn-primary">Create Testing Site</button>
+      </a>
+    {% endif %}
+  </div>
+
+  <div class="logout">
+    <a href="{{ url_for('logout') }}">
+      <button class="btn btn-secondary">Logout</button>
+    </a>
+  </div>
+</div>
+{% endblock %}

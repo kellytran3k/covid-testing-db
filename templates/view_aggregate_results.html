@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="view_aggregate_results">
+    <h1>View Aggregate Results</h1>
+    <form action="{{ url_for('view_aggregate_results') }}" method="POST">
+
+        <label for="loc">Locations</label>
+        <select id="loc" name="loc">
+            <option value="">All</option>
+            <option value="East">East</option>
+            <option value="West">West</option>
+        </select>
+
+        <label for="house">Housing</label>
+        <select id="house" name="house">
+            <option value="">All</option>
+            <option value="Student Housing">Student Housing</option>
+            <option value="Greek Housing">Greek Housing</option>
+            <option value="Off-campus House">Off-Campus House</option>
+            <option value="Off-campus Appartments">Off-Campus Appartments</option>
+        </select>
+
+        <label for="site_list">Testing Site</label>
+        <select id="site_list" name="site_list">
+            <option value = "">ALL</option>
+            {% for s in site_list %}
+                <option value="{{ s }}">{{ s }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="low_date">Dates Processed</label>
+
+        <input type="date" id="low_date" name="low_date">
+        <input type="date" id="high_date" name="high_date">
+
+        <input type="submit" name="filter" value="Filter">
+
+        <input type="submit" name="reset" value="Reset">
+
+        <div style="padding: 20px">
+            <table border="1" cellpadding="5" cellspacing="5" style="border-collapse: collapse; width: auto; margin: 20px">
+                <tr>
+                    <th>Total Status</th>
+                    <th>Total Number: {{ total_num }}</th>
+                    <th>  100%  </th>
+                </tr>
+
+                {% for a in agg_list %}
+                    <tr >
+                        <td>{{ a.test_status }}</td>
+                        <td>{{ a.num_of_test }}</td>
+                        <td style="word-break: break-word">{{ a.percentage }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </form>
+
+    <a href="{{ url_for('home') }}" class="button">Back</a>
+</div>
+{% endblock %}

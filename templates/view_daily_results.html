@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+<table border="1" cellpadding="5" cellspacing="5" style="border-collapse: collapse; width: auto; margin: 20px">
+    <h1 class="h1main">Daily results</h1>
+    <tr>
+        <th>Date</th>
+        <th>Tests Processed</th>
+        <th>Positive Count</th>
+        <th>Positive Percent</th>
+     </tr>
+
+    {% for results in resultDetails %}
+    <tr>
+      <td> {{results[0]}} </td>
+      <td> {{results[1]}} </td>
+      <td> {{results[2]}} </td>
+      <td> {{results[3]}} </td>
+    </tr>
+    {% endfor %}
+
+    <a href="{{ url_for('home') }}" class="button">Back</a>
+</table>
+{% endblock %}

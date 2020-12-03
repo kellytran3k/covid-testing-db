@@ -1,0 +1,57 @@
+
+<!DOCTYPE HTML>
+<html>
+    {% extends "base.html" %}
+    {% block content %}
+    {% include 'head.html' %}
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+          <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
+
+    <body>
+        <div class="create_appointment">
+            <h1>Create Appointments</h1>
+            <form action="{{ url_for('create_appointment') }}" method="POST">
+            
+
+                <div style="padding: 20px">
+                    <table border="1" cellpadding="5" cellspacing="5" style="border-collapse: collapse; width: auto; margin: 20px">
+                        <tr>
+                            <th>Site Name</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                        </tr>
+
+
+                        <tr >
+                            <td>
+                                  <!--  site_name //menu dropdown-->
+                                  <label for="site_name">Site Name</label>
+                                  <select id="site_name" name="site_name">
+                                      {% for s in all_sites %}
+                                          <option value="{{ s }}">{{ s }}</option>
+                                      {% endfor %}
+                                  </select>
+                            </td>
+                            <td>
+                                  <!-- appt_date //fill-->
+                                  <input type="date" id="appt_date" name="appt_date">
+                            </td>
+                            <td>
+                                  <!-- appt_time //fill-->
+                                  <input type="time" id="appt_time" name="appt_time">
+                            </td>
+                        </tr>
+                    </table>
+
+                      <!-- submit button -->
+                      <input type="submit" name="submit" value="submit">
+                      <div class="msg">{{ msg }}</div>
+                </div>
+            </form>
+
+            <a href="{{ url_for('home') }}" class="button">Back</a>
+        </div>
+    </body>
+    {% endblock %}
+</html>

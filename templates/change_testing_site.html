@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+    <form action="{{ url_for('change_testing_site') }}" method="POST">
+    <table border = 1>
+        <h1 class="change_testing_site">Change Testing Site</h1>
+        <tr>
+            <th>Username</th>
+            <th>Full Name</th>
+            <th>Assigned Sites</th>
+         </tr>
+
+        <tr>
+          <td> {{ tester_user }} </td>
+          <td> {{ full_name }} </td>
+          <td>
+              {% for s in all_sites %}
+                    {% if s in assigned_sites %}
+                        <input type="checkbox" name="{{ s }}" value="1" checked>
+                    {% else %}
+                        <input type="checkbox" name="{{ s }}" value="0">
+                    {% endif %}
+                    <label for="{{ s }}">{{ s }}</label><br>
+              {% endfor %}
+
+              <input type="submit" name="submit" value="Submit">
+
+              {% for m in msg %}
+                <div class="msg">{{ m }}</div>
+              {% endfor %}
+          </td>
+        </tr>
+
+        <a href="{{ url_for('home') }}" class="button">Back</a>
+    </table>
+</form>
+{% endblock %}

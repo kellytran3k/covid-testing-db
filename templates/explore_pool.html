@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="explore_pool">
+    <h1>Explore Pool Result</h1>
+    <form action="{{ url_for('explore_pool',pool_id=pool_id) }}" method="POST">
+
+        <div style="padding: 20px">
+            <table border="1" cellpadding="5" cellspacing="5" style="border-collapse: collapse; width: auto; margin: 20px">
+                {% for test in explore_list %}
+                    <tr>
+                        <th>Pool ID</th>
+                        <td>{{ test.pool_id }}</td>
+                    </tr>
+                    <tr>
+                        <th>Date Processed</th>
+                        <td>{{ test.process_date }}</td>
+                    </tr>
+                    <tr>
+                        <th>Pool Result</th>
+                        <td>{{ test.pool_status }}</td>
+                    </tr>
+                    <tr>
+                        <th>Processed By</th>
+                        <td>{{ test.processed_by }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+
+            <table border="1" cellpadding="5" cellspacing="5" style="border-collapse: collapse; width: auto; margin: 20px">
+                <tr>
+                    <th>Test ID#</th>
+                    <th>Date Tested</th>
+                    <th>Testing Site</th>
+                    <th>Test Result</th>
+                </tr>
+
+                {% for test in explore2_list %}
+                    <tr >
+
+                        <td>{{ test.test_id }}</td>
+                        <td>{{ test.appt_date }}</td>
+                        <td>{{ test.appt_site }}</td>
+                        <td>{{ test.test_status }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+
+
+        </div>
+    </form>
+
+    <a href="{{ url_for('home') }}" class="button">Back</a>
+</div>
+{% endblock %}

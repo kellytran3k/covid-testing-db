@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="signup_test">
+    <h1>Signup for a Test</h1>
+
+    <div class="alert-msg">{{ msg }}</div>
+
+    <form action="{{ url_for('signup_test') }}" method="POST">
+        <label for="site_list">Testing Site</label>
+        <select id="site_list" name="site_list">
+            <option value = "">ALL</option>
+            {% for s in site_list %}
+                <option value="{{ s }}">{{ s }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="low_date">Dates</label>
+        <input type="date" id="low_date" name="low_date">
+        <input type="date" id="high_date" name="high_date">
+
+        <label for="low_time">Time</label>
+        <input type="time" id="low_time" name="low_time">
+        <input type="time" id="high_time" name="high_time">
+
+
+        <input type="submit" name="filter" value="Filter">
+
+        <input type="reset" name="reset" value="Reset">
+
+
+        <div style="padding: 20px">
+            <table border="1" cellpadding="5" cellspacing="5" style="border-collapse: collapse; width: auto; margin: 20px">
+                <tr>
+                    <th>Date</th>
+                    <th>Times</th>
+                    <th>Site Address</th>
+                    <th>Test Site</th>
+                    <th>Signup</th>
+                </tr>
+
+                {% for test in signup_list %}
+                    <tr >
+                        <td>{{ test.appt_date }}</td>
+                        <td>{{ test.appt_time }}</td>
+                        <td>{{ test.street }}</td>
+                        <td>{{ test.site_name }}</td>
+                        <td><input type="radio" name = "data" id=""onclick='myfunction("{{ test.site_name }}", "{{test.appt_date}}", "{{ test.appt_time }}")'/></td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <input type = "hidden" id = "asite" name= "asite">
+        <input type = "hidden" id = "adate" name= "adate">
+        <input type = "hidden" id = "atime" name= "atime">
+
+        <input type="submit" name="process" value="Sign Up">
+    </form>
+
+    <a href="{{ url_for('home') }}" class="button">Back</a>
+
+
+</div>
+
+<script type="text/javascript">
+    function myfunction(site_name, appt_date, appt_time){
+        var s = site_name;
+        document.getElementById("asite").value = s;
+
+        var d = appt_date;
+        document.getElementById("adate").value = d;
+
+        var t = appt_time;
+        document.getElementById("atime").value = t;
+        /*alert(document.getElementById( "test.appt_date" ).innerText);
+        var x = document.querySelector('input[name="offer-id"]:checked').value;
+
+                <input type="submit" name="signup" value="Sign Up" onclick = "myfunction()">
+
+        document.getElementById("demo").innerHTML = x;*/
+    }
+    function myalert(){
+        alert("You've successfully signed up for a test.\n Location:"+s+"Date/Time:"+d+" "+" ")
+    }
+</script>
+{% endblock %}

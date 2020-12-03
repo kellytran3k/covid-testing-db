@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="view_appointments">
+    <h1>View Appointments</h1>
+    <form action="{{ url_for('view_appointments') }}" method="POST">
+
+        <!--  site_name //menu dropdown-->
+        <label for="site_name">Site Name</label>
+        <select id="site_name" name="site_name">
+            <option value="">All</option>
+            {% for site in all_sites %}
+                <option value="{{ site }}" SELECTED>{{ site }}</option>
+            {% endfor %}
+        </select>
+
+        <!-- begin_appt_date //fill-->
+        <label for="begin_appt_date">Dates</label>
+        <input type="date" id="begin_appt_date" name="begin_appt_date">
+        <input type="date" id="end_appt_date" name="end_appt_date">
+        <!-- end_appt_date //fill-->
+
+        <!-- begin_appt_time //fill-->
+        <input type="time" id="begin_appt_time" name="begin_appt_time">
+        <input type="time" id="end_appt_time" name="end_appt_time">
+        <!-- end_appt_time //fill-->
+
+        <!-- is_available //dropdown menu-->
+        <label for="is_available">Availability</label>
+        <select id="is_available" name="is_available">
+            <option value="1">Show available only</option>
+            <option value="0">Show booked only</option>
+            <option value="">Show all</option>
+        </select>
+
+        <input type="submit" name="filter" value="Filter">
+
+        <div style="padding: 20px">
+            <table border="1" cellpadding="5" cellspacing="5" style="border-collapse: collapse; width: auto; margin: 20px">
+                <tr>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Test Site</th>
+                    <th>Location</th>
+                    <th>User</th>
+                </tr>
+
+                {% for appt in appointment_list %}
+                    <tr >
+                        <td>{{ appt.appt_date }}</td>
+                        <td>{{ appt.appt_time }}</td>
+                        <td>{{ appt.site_name }}</td>
+                        <td>{{ appt.location }}</td>
+                        <!-- <td>{{ appt.username }}</td> -->
+                        <td style="word-break: break-word">{{ appt.username }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </form>
+
+    <a href="{{ url_for('home') }}" class="button">Back</a>
+</div>
+{% endblock %}

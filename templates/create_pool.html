@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="create_pool">
+    <h1>Create Pool</h1>
+    <h5></h5>
+    <form action="{{ url_for('create_pool') }}", method="POST">
+        <label for="pool_id">Pool ID</label>
+        <input type="text" id="pool_id" name="pool_id" value="{{ suggested_pool_id }}">
+
+        <!-- Table showing all negative tests for a negative pool -->
+        <div id="test_table" style="padding: 20px;">
+            <table border="1" cellpadding="5" cellspacing="5" style="border-collapse: collapse; width: auto; margin: 20px">
+                <tr>
+                    <th>Test ID</th>
+                    <th>Date Tested</th>
+                    <th>Include in Pool</th>
+                </tr>
+
+                {% for test in test_for_pool %}
+                    <tr >
+                        <td>{{ test.test_id }}</td>
+                        <td>{{ test.date_tested }}</td>
+                        <td>
+                            <input type="checkbox" id="include_{{test.test_id}}" name="include_{{test.test_id}}">
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+        <div class="alert-msg">{{ error }}</div>
+        <input type="submit" name="create" value="Create">
+    </form>
+
+    <a href="{{ url_for('home') }}" class="button">Back</a>
+    
+</div>
+{% endblock %}

@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Reassign Testers</h1>
+<form id = "reassign" action="{{ url_for('reassigntester') }}" method="post" autocomplete="off">
+<div>
+<table border="1" cellpadding="5" cellspacing="5" style="border-collapse: collapse; width: auto; margin: 20px">
+	<TR>
+		<TD>Username</TD>
+		<TD>Name</TD>
+		<TD>Phone Number</TD>
+		<TD>Assigned Sites</TD>
+	</TR>
+	{% for t in testerList %}
+	{% set rowloop = loop %}
+	<TR>
+			<TD style = "vertical-align:top">{{t[0]}}</TD>
+			<TD style = "vertical-align:top">{{t[1] +' '+ t[2]}}</TD>
+			<TD style = "vertical-align:top">{{t[3]}}</TD>
+			<TD>
+			<div id="container{{t[0]}}" name = "container{{t[0]}}">
+				{% for s in sitelist[loop.index - 1] %}
+					<div id = {{t[0]}}{{sitelist2[rowloop.index - 1][loop.index - 1]}}>
+						<p>{{s[0]}}<button type="button" onclick="removeTester('{{s[0]}}','{{t[0]}}')">X</button></p>
+					</div>
+				{% endfor %}
+			</div>
+				<select name="sitetester{{t[0]}}" id="sitetester{{t[0]}}" required>
+					{% for r in nonsitelist[loop.index - 1] %}
+						<OPTION value="{{nonsitelist2[rowloop.index - 1][loop.index - 1]}}">{{r}}</option>
+					{% endfor %}
+				</select>
+				<button type = "button" onclick = "addTester('{{t[0]}}')">&#10003;</button>
+			<!--{{sitelist[loop.index - 1]}}!-->
+			</TD>
+	</TR>
+	{% endfor %}
+</table>
+</div>
+<div class="msg">{{ msg }}</div>
+<button type="button" class="sub" id="button" value = "Submit" onclick="selectAll({{usernameList}})">Submit</button>
+<!--<INPUT TYPE="submit" VALUE="Submit"> !-->
+</form>
+
+<a href="{{ url_for('home') }}" class="button">Back</a>
+
+<script type = "text/javascript">
+		function removeTester(sitename, username) {
+			var remobj = document.getElementById(username + combine(sitename))
+			remobj.remove()
+			siteList = document.getElementById("sitetester" + username)
+			var option = document.createElement("option")
+			option.text = sitename
+			option.value = combine(sitename)
+			siteList.add(option)
+		};
+		function addTester(username) {
+			siteList = document.getElementById("sitetester" + username)
+			siteText = siteList.options[siteList.selectedIndex].text
+			siteList.remove(siteList.selectedIndex)
+			document.getElementById("container" + username).innerHTML += '<div id =' + username + combine(siteText) + '><p>' +
+			siteText + '<button type="button" onclick="removeTester(&apos;' + siteText + '&apos;,&apos;' + username + '&apos;)">X</button></p></div>'
+		};
+		function combine(str) {
+			newText = str.split(" ").join("")
+			return newText
+		};
+		function selectAll(userList) {
+			for (var i = 0; i < userList.length; i++) {
+				siteList = document.getElementById("sitetester" + userList[i])
+				siteList.multiple = true
+				for (var j = 0; j < siteList.options.length; j++)
+				{
+					siteList.options[j].selected = true;
+				}
+			}
+			document.forms["reassign"].submit();
+		};
+</script>
+{% endblock %}

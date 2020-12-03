@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %}
+<div>
+    <h1>Lab Tech Tests Processed</h1>
+    <form action="{{ url_for('view_processed_tests') }}" method="POST">
+        <label for="low_date">Dates Tested</label>
+        <input type="date" id="low_date" name="low_date">
+        <input type="date" id="high_date" name="high_date">
+
+        <label for="test_result">Test Result</label>
+        <select id="test_result" name="test_result">
+            <option value="all">All</option>
+            <option value="positive">Positive</option>
+            <option value="negative">Negative</option>
+        </select>
+
+        <input type="submit" name="filter" value="Filter">
+
+        <div style="padding: 20px">
+            <table border="1" cellpadding="5" cellspacing="5" style="border-collapse: collapse; width: auto; margin: 20px">
+                <tr>
+                    <th>Test ID</th>
+                    <th>Pool ID</th>
+                    <th>Date Tested</th>
+                    <th>Date Processed</th>
+                    <th>Result</th>
+                </tr>
+
+                {% for test in test_list %}
+                    <tr >
+                        <td>
+                          {{ test.test_id }}
+                        </td>
+                        <td>
+                          <a href="{{ url_for('explore_pool', pool_id=test.pool_id) }}">{{ test.pool_id }}</a>
+                        </td>
+                        <td>{{ test.date_tested }}</td>
+                        <td>{{ test.date_processed }}</td>
+                        <td>{{ test.test_status }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </form>
+
+    <a href="{{ url_for('home') }}" class="button">Back</a>
+</div>
+{% endblock %}

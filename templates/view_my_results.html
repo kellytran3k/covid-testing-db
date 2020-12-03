@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="view_my_results">
+    <h1>View My Results</h1>
+    <form action="{{ url_for('view_my_results') }}" method="POST">
+
+
+        <label for="pool_status">Pool Status</label>
+        <select id="pool_status" name="pool_status">
+            <option value="">All</option>
+            <option value="positive">Positive</option>
+            <option value="negative">Negative</option>
+            <option value="pending">Pending</option>
+        </select>
+
+        <label for="low_date">Dates Processed</label>
+        <input type="date" id="low_date" name="low_date">
+        <input type="date" id="high_date" name="high_date">
+
+        <input type="submit" name="filter" value="Filter">
+        <input type="submit" name="reset" value="Reset">
+
+        <div style="padding: 20px">
+            <table border="1" cellpadding="5" cellspacing="5" style="border-collapse: collapse; width: auto; margin: 20px">
+                <tr>
+                    <th>Test ID</th>
+                    <th>Timeslot Date</th>
+                    <th>Date Processed</th>
+                    <th>Pool Status</th>
+                    <th>Status</th>
+                </tr>
+
+                {% for test in student_list %}
+                    <tr >
+                        <td>
+                          <a href="{{ url_for('explore_result', test_id=test.test_id) }}">{{ test.test_id }}</a>
+                        </td>
+                        <td>{{ test.timeslot_date }}</td>
+                        <td>{{ test.date_processed }}</td>
+                        <td>{{ test.pool_status }}</td>
+                        <td style="word-break: break-word">{{ test.test_status }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </form>
+
+    <a href="{{ url_for('home') }}" class="button">Back</a>
+</div>
+{% endblock %}

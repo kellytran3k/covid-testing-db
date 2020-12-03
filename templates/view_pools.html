@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="view_pools">
+    <h1>View Pools</h1>
+    <form action="{{ url_for('view_pools') }}" method="POST">
+        <label for="low_date">Dates Processed</label>
+
+        <input type="date" id="low_date" name="low_date">
+        <input type="date" id="high_date" name="high_date">
+
+        <label for="processed_by">Processed By</label>
+        <input type="text" id="processed_by" name="processed_by">
+
+        <label for="pool_status">Pool Status</label>
+        <select id="pool_status" name="pool_status">
+            <option value="">All</option>
+            <option value="positive">Positive</option>
+            <option value="negative">Negative</option>
+            <option value="pending">Pending</option>
+        </select>
+
+        <input type="submit" name="filter" value="Filter">
+
+        <div style="padding: 20px">
+            <table border="1" cellpadding="5" cellspacing="5" style="border-collapse: collapse; width: auto; margin: 20px">
+                <tr>
+
+                    <th>Pool ID</th>
+                    <th>Test IDs</th>
+                    <th>Date Processed</th>
+                    <th>Processed By</th>
+                    <th>Pool Status</th>
+                </tr>
+
+                {% for pool in pool_list %}
+                    <tr >
+                        {% if pool.date_processed %}
+                            <td>
+                                <a href="{{ url_for('explore_pool', pool_id=pool.pool_id) }}">{{ pool.pool_id }}</a>
+                            </td>
+                        {% else %}
+                            <td>
+                                <a href="{{ url_for('process_pool', pool_id=pool.pool_id) }}">{{ pool.pool_id }}</a>
+                            </td>
+                        {% endif %}
+                        <td>{{ pool.test_ids }}</td>
+                        <td>{{ pool.date_processed }}</td>
+                        <td>{{ pool.processed_by }}</td>
+                        <td style="word-break: break-word">{{ pool.pool_status }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </form>
+
+    <a href="{{ url_for('home') }}" class="button">Back</a>
+</div>
+{% endblock %}

@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="register main">
+	<h1 class="h1main">Register</h1>
+	<div class="links">
+		<a href="{{ url_for('login') }}">Back to Login</a>
+		<!-- <a href="{{ url_for('register') }}" class="active" name="login">Register</a> !-->
+	</div>
+	<form action="{{ url_for('register') }}" method="post" autocomplete="off">
+		<label for="username">
+			<i class="fas fa-user"></i>
+		</label>
+		<input type="text" name="username" placeholder="Username" id="username" required>
+		<label for="password">
+			<i class="fas fa-lock"></i>
+		</label>
+		<input type="password" name="password" placeholder="Password" id="password" required>
+		<label for="confirm_password">
+			<i class="fas fa-lock"></i>
+		</label>
+		<input type="password" name="confirm_password" placeholder="Confirm Password" id="confirm_password" required>
+		<label for="email">
+			<i class="fas fa-envelope"></i>
+		</label>
+		<input type="email" name="email" placeholder="Email" id="email" required>
+		<label for="firstname">
+			<i class="fas fa-user"></i>
+		</label>
+		<input type="text" name ="firstname" placeholder="First Name" id="firstname" required>
+		<label for="lastname">
+			<i class="fas fa-user"></i>
+		</label>
+		<input type="text" name ="lastname" placeholder="Last Name" id="lastname" required>
+		<label for="role">
+			<i class="fas fa-user-tag"></i>
+		</label>
+		<label for="student">Student
+			<input type="radio" name ="role" id="student" value="Student" onclick="roleCheck();" checked = true>
+		</label>
+
+		<label for="employee">Employee
+			<input type="radio" name ="role" id="employee" value="Employee" onclick="roleCheck();">
+		</label>
+		<div id="student_view" style="position:absolute">
+			<label for="housing">Housing Type</label>
+			<select name="housing" id="housing">
+				<option value="student">Student Housing</option>
+				<option value="greek">Greek Housing</option>
+				<option value="apartment">Off-Campus Apartment</option>
+				<option value="house">Off-Campus House</option>
+			</select>
+			<label for="location">Location</label>
+			<select name="location" id="location">
+				<option value="east">East Campus</option>
+				<option value="west">West Campus</option>
+			</select>
+			<div class="msg">{{ msg }}</div>
+			<input type="submit" value="Register">
+		</div>
+		<div id="employee_view" style="visibility:hidden; position:absolute">
+			<b>Phone number</b> <br><input type="text" name="phonenumber"><br>
+			<input type="checkbox" id="sitetester" name="sitetester" value="Site tester">
+			<label for="sitetester"> Site Tester</label><br>
+			<input type="checkbox" id="labtech" name="labtech" value="Lab tech">
+			<label for="labtech"> Lab Technician</label><br>
+			<div class="msg">{{ msg }}</div>
+			<input type="submit" value="Register">
+		</div>
+	</form>
+</div>
+<script type = "text/javascript">
+    function roleCheck() {
+		if(document.getElementById('student').checked){
+			document.getElementById('student_view').style.visibility = 'visible';
+			document.getElementById('employee_view').style.visibility = 'hidden';
+		}
+		else if(document.getElementById('employee').checked){
+			document.getElementById('student_view').style.visibility = 'hidden';
+			document.getElementById('employee_view').style.visibility = 'visible';
+		}
+	};
+</script>
+{% endblock %}
